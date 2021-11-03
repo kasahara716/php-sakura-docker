@@ -1,0 +1,37 @@
+version: "1.0"
+
+services:
+  php:
+    build:
+      context: ./docker/php-apache
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 80:80
+    container_name: php7.4-apache
+    links:
+      - db
+  db:
+    image: mariadb:10.3
+    volumes:
+      - dbvolume:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+    container_name: php7.4-db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.1
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    ports:
+      - 8080:80
+    container_name: php7.4-phpmyadmin
+    links:
+      - db
+volumes:
+  dbvolume:
