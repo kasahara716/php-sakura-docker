@@ -3,6 +3,9 @@ FROM php:7.4-apache
 # RUN , CMD , ENTRYPOINT , COPY , ADD を実行する時のワーキングディレクトリを指定
 WORKDIR /var/www
 
+# mod_rewriteを有効化
+RUN a2enmod rewrite
+
 RUN apt-get update
 
 # パッケージインストール
